@@ -10,6 +10,13 @@ import { AppService } from './app.service';
         name: 'USER',
         transport: Transport.TCP,
       },
+      {
+        name: 'BOOK',
+        transport: Transport.TCP,
+        options: {
+          port: 3001,
+        },
+      },
     ]),
   ],
   controllers: [AppController],
