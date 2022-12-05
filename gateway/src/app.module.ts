@@ -9,6 +9,9 @@ import { AppService } from './app.service';
       {
         name: 'USER',
         transport: Transport.TCP,
+        options: {
+          port: 3000,
+        },
       },
       {
         name: 'BOOK',
