@@ -17,6 +17,11 @@ export class AppController {
     return this.appService.getUsers();
   }
 
+  @Get('/book')
+  getBooks() {
+    return this.appService.getBooks();
+  }
+
   @Post('/user/create')
   createUser(@Body() createUser: CreateUser): void {
     return this.appService.createUser(createUser);

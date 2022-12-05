@@ -19,6 +19,10 @@ export class AppService {
     return this.userClient.send({ cmd: 'get_users' }, {});
   }
 
+  getBooks(): Observable<any> {
+    return this.bookClient.send({ cmd: 'get_books' }, {});
+  }
+
   createUser(createUser: CreateUser): void {
     console.log('User with be Created! - Gateway');
     this.userClient.emit('create_user', createUser);

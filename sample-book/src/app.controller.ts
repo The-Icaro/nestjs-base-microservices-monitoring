@@ -1,7 +1,8 @@
 import { Body, Controller, Get } from '@nestjs/common';
+import { EventPattern, MessagePattern } from '@nestjs/microservices';
 import { AppService } from './app.service';
-import { EventPattern } from '@nestjs/microservices';
 import { CreateBook } from './create-book.dto';
+import { Book } from './book.dto';
 
 @Controller()
 export class AppController {
@@ -10,6 +11,11 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+
+  @MessagePattern({ cmd: 'get_books' })
+  getBooks(): Array<Book> {
+    return this.appService.getBooks();
   }
 
   @EventPattern('create_book')
