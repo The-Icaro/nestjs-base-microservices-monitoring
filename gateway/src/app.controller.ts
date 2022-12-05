@@ -12,12 +12,17 @@ export class AppController {
     return this.appService.getHello();
   }
 
-  @Post('/user')
+  @Get('/user')
+  getUsers() {
+    return this.appService.getUsers();
+  }
+
+  @Post('/user/create')
   createUser(@Body() createUser: CreateUser): void {
     return this.appService.createUser(createUser);
   }
 
-  @Post('/book')
+  @Post('/book/create')
   createBook(@Body() createBook: CreateBook): void {
     return this.appService.createBook(createBook);
   }

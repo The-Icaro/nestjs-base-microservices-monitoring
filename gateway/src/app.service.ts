@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateUser } from './create-user.dto';
 import { CreateBook } from './create-book.dto';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class AppService {
@@ -12,6 +13,10 @@ export class AppService {
 
   getHello(): string {
     return 'Hello World!';
+  }
+
+  getUsers(): Observable<any> {
+    return this.userClient.send({ cmd: 'get_users' }, {});
   }
 
   createUser(createUser: CreateUser): void {
