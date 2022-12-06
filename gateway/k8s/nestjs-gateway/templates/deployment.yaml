@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nestjs-gateway
+  name: nestjs-gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nestjs-gateway
+  template:
+    metadata:
+      labels:
+        app: nestjs-gateway
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /metrics
+        prometheus.io/port: "4000"
+    spec:
+      containers:
+      - image: icarofigaro/nestjs-project:v2.0
+        name: nestjs-project
+        ports:
+          - containerPort: 4000
