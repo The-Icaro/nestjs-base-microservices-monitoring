@@ -15,7 +15,7 @@ services:
   
   sampleuser:
     build:
-      context: ./sample-book
+      context: ./sample-user
       target: "development"
     ports:
       - "3000:3000"
@@ -23,7 +23,7 @@ services:
   
   samplebook:
     build:
-      context: ./sample-user
+      context: ./sample-book
       target: "development"
     ports:
       - "3001:3001"
