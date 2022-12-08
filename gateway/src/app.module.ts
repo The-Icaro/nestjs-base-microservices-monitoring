@@ -23,9 +23,13 @@ import { LoggingInterceptor } from './logging.interceptor';
       },
       {
         name: 'BOOK',
-        transport: Transport.TCP,
+        transport: Transport.RMQ,
         options: {
-          port: 3001,
+          urls: ['amqp://localhost:5672'],
+          queue: 'book_queue',
+          queueOptions: {
+            durable: false,
+          },
         },
       },
     ]),
