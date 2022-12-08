@@ -1,5 +1,11 @@
-import { Body, Controller, Get } from '@nestjs/common';
-import { EventPattern, MessagePattern } from '@nestjs/microservices';
+import { Controller, Get } from '@nestjs/common';
+import {
+  EventPattern,
+  MessagePattern,
+  Payload,
+  Ctx,
+  RmqContext,
+} from '@nestjs/microservices';
 import { AppService } from './app.service';
 import { User } from './user.dto';
 import { CreateUser } from './create-user.dto';
@@ -19,7 +25,11 @@ export class AppController {
   }
 
   @EventPattern('create_user')
-  handleCreateUser(@Body() createUser: CreateUser): void {
+  handleCreateUser(
+    @Payload() createUser: CreateUser,
+    @Ctx() context: RmqContext,
+  ): void {
+    console.log(context);
     this.appService.createUser(createUser);
   }
 }

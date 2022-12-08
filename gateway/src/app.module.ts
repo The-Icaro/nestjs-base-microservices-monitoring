@@ -12,9 +12,13 @@ import { LoggingInterceptor } from './logging.interceptor';
     ClientsModule.register([
       {
         name: 'USER',
-        transport: Transport.TCP,
+        transport: Transport.RMQ,
         options: {
-          port: 3000,
+          urls: ['amqp://localhost:5672'],
+          queue: 'user_queue',
+          queueOptions: {
+            durable: false,
+          },
         },
       },
       {

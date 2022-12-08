@@ -26,6 +26,8 @@
     "@nestjs/microservices": "^9.2.1",
     "@nestjs/platform-express": "^9.0.0",
     "@willsoto/nestjs-prometheus": "^4.7.0",
+    "amqp-connection-manager": "^4.1.9",
+    "amqplib": "^0.10.3",
     "prom-client": "^14.1.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
