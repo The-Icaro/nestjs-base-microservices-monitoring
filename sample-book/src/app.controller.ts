@@ -1,5 +1,11 @@
-import { Body, Controller, Get } from '@nestjs/common';
-import { EventPattern, MessagePattern } from '@nestjs/microservices';
+import { Controller, Get } from '@nestjs/common';
+import {
+  Ctx,
+  EventPattern,
+  MessagePattern,
+  Payload,
+  RmqContext,
+} from '@nestjs/microservices';
 import { AppService } from './app.service';
 import { CreateBook } from './create-book.dto';
 import { Book } from './book.dto';
@@ -19,7 +25,11 @@ export class AppController {
   }
 
   @EventPattern('create_book')
-  handleCreateBook(@Body() createBook: CreateBook): void {
+  handleCreateBook(
+    @Payload() createBook: CreateBook,
+    @Ctx() context: RmqContext,
+  ): void {
+    console.log(context);
     this.appService.createBook(createBook);
   }
 }
