@@ -1,4 +1,11 @@
-import { Resolver, Query, Args, Int, Mutation } from '@nestjs/graphql';
+import {
+  Resolver,
+  Query,
+  Args,
+  Int,
+  Mutation,
+  ResolveReference,
+} from '@nestjs/graphql';
 import { BookService } from './book.service';
 import { CreateBook } from './dto/input/createBook.input';
 import { UpdateBook } from './dto/input/updateBook.input';
@@ -54,5 +61,10 @@ export class BookResolver {
     @Args({ name: 'id', type: () => Int }) bookId: number,
   ): MutationTransaction {
     return this.bookService.deleteBookById(bookId);
+  }
+
+  @ResolveReference()
+  resolveReference(reference: { __typename: string; id: number }): Book {
+    return this.bookService.getBookById(reference.id);
   }
 }

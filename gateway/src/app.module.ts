@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
-import { ClientsModule, Transport } from '@nestjs/microservices';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { LoggingInterceptor } from './logging.interceptor';
 import { JoiValidationSchema } from '../config/joi_validation';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloGatewayDriver, ApolloGatewayDriverConfig } from '@nestjs/apollo';
+import { IntrospectAndCompose } from '@apollo/gateway';
 
 @Module({
   imports: [
@@ -15,35 +15,27 @@ import { JoiValidationSchema } from '../config/joi_validation';
       validationSchema: JoiValidationSchema,
       envFilePath: '.env',
     }),
+    GraphQLModule.forRoot<ApolloGatewayDriverConfig>({
+      driver: ApolloGatewayDriver,
+      gateway: {
+        supergraphSdl: new IntrospectAndCompose({
+          subgraphs: [
+            {
+              name: process.env.SUBGRAPHS_USER_NAME,
+              url: process.env.SUBGRAPHS_USER_URL,
+            },
+            {
+              name: process.env.SUBGRAPHS_BOOK_NAME,
+              url: process.env.SUBGRAPHS_BOOK_URL,
+            },
+          ],
+          subgraphHealthCheck: true,
+        }),
+      },
+    }),
     PrometheusModule.register(),
-    ClientsModule.register([
-      {
-        name: process.env.RABBITMQ_MODULE_USER_NAME,
-        transport: Transport.RMQ,
-        options: {
-          urls: [process.env.RABBITMQ_URI],
-          queue: process.env.RABBITMQ_MODULE_USER_QUEUE,
-          queueOptions: {
-            durable: false,
-          },
-        },
-      },
-      {
-        name: process.env.RABBITMQ_MODULE_BOOK_NAME,
-        transport: Transport.RMQ,
-        options: {
-          urls: [process.env.RABBITMQ_URI],
-          queue: process.env.RABBITMQ_MODULE_BOOK_QUEUE,
-          queueOptions: {
-            durable: false,
-          },
-        },
-      },
-    ]),
   ],
-  controllers: [AppController],
   providers: [
-    AppService,
     {
       provide: APP_INTERCEPTOR,
       useClass: LoggingInterceptor,
