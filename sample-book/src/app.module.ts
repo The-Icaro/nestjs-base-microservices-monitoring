@@ -1,8 +1,12 @@
+import {
+  ApolloFederationDriver,
+  ApolloFederationDriverConfig,
+} from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { GraphQLModule } from '@nestjs/graphql';
 import { JoiValidationSchema } from '../config/joi_validation';
+import { BookModule } from './book/book.module';
 
 @Module({
   imports: [
@@ -11,8 +15,11 @@ import { JoiValidationSchema } from '../config/joi_validation';
       validationSchema: JoiValidationSchema,
       envFilePath: '.env',
     }),
+    GraphQLModule.forRoot<ApolloFederationDriverConfig>({
+      driver: ApolloFederationDriver,
+      autoSchemaFile: true,
+    }),
+    BookModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
