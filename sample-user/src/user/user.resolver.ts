@@ -29,7 +29,7 @@ export class UserResolver {
 
   @Mutation(() => User, {
     name: 'create_user',
-    nullable: true,
+    nullable: false,
     description: 'Create User',
   })
   createUser(@Args('createUser') createUser: CreateUser): User {
@@ -38,7 +38,7 @@ export class UserResolver {
 
   @Mutation(() => MutationTransaction, {
     name: 'update_user',
-    nullable: true,
+    nullable: false,
     description: 'Update User By Id',
   })
   updateUserById(
@@ -49,7 +49,7 @@ export class UserResolver {
 
   @Mutation(() => MutationTransaction, {
     name: 'delete_user',
-    nullable: true,
+    nullable: false,
     description: 'Delete User By Id',
   })
   deleteUserById(
